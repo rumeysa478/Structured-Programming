@@ -1,0 +1,168 @@
+
+namespace vizesonrası3
+{
+    //create an interfac IDiscountable with method ApplyDiscount().
+    //create a class Course with a constructer that accepts course name and price.
+    //implement the inerface and calculate discounted price
+    
+    interface IDiscountable
+    {
+        public double ApplyDiscount(double DiscountRate);
+    }
+
+    public class Course : IDiscountable
+    {
+        public string course_name;
+        public double price;
+        public double DiscountRate
+        {
+            get
+            {
+                return DiscountRate;
+            }
+            set
+            {
+
+            }
+        }
+
+        
+        public Course(string p_course_name, double p_price)
+        {
+            this.course_name = p_course_name;
+            this.price = p_price;
+        }
+
+        public double ApplyDiscount(double DiscountRate)
+        {
+            this.price = this.price - (this.price * DiscountRate / 100);
+            return this.price;
+        }
+    }
+
+    //create an interface called IPayable with a method CalculatePayment()
+    //Implement tis interface in FullTimeEmployee and PartTimeEmployee classes
+    //Each class should have different payment rate fulltime 1x, parttime 0.8x
+
+    interface IPayable
+    {
+        public double CalculatePayment(double payment);        
+    }
+    public class FullTimeEmployee : IPayable
+    {
+        public double CalculatePayment(double payment)
+        {
+            return payment; 
+        }
+    }
+    public class PartTimeEmployee : IPayable
+    {
+        public double CalculatePayment(double payment)
+        {
+            return payment * 0.8;
+        }
+    }
+
+    // create an abstract class called Empoyee
+    //should contain protected variable named name and salary
+    //define constructor to initaliza these variables
+    //define an abstract method called CalculateBonus()
+
+    //create a class called Manager inherits from employee
+    //overrides CalculateBonus() so that the bonus is calculated as 
+    //20% of the salary
+    //ın the main method create manager object and call the necessary method
+
+    public abstract class Employee
+    {
+        protected string name;
+        protected double salary;
+
+        public Employee(string name, double salary)
+        {
+            this.name = name;
+            this.salary = salary;
+        }
+
+        public abstract double CalculateBounus();
+     
+    }
+
+    class Manager : Employee
+    {
+        public Manager(string name, double salary) : base(name, salary) { }
+        public override double CalculateBounus()
+        {
+            this.salary = salary * 20 / 100;
+            return this.salary;
+        }
+    }
+
+    //creat an abstract class calles payment that contains 
+    //an abstract method called Pay(double amount)
+    //create three derived classes calles CreditCardPayment, CashPayment, CryptoPayment
+    //override pay method differently in each class
+    //pay method of ccp class applies 5% extra bill
+    //pay method of cashp class applies 5% discount
+    //pay method of cryp class applies no discount
+    //
+
+    public abstract class Payment
+    {
+        public double amount;
+        public abstract double Pay(double amount);
+    }
+
+    public class CreditCardPayment : Payment
+    {
+        public override double Pay(double amount)
+        {
+            this.amount = amount + (amount * 5 / 100);
+            return this.amount;
+        }
+    }
+
+    public class CashPayment : Payment
+    {
+        public override double Pay(double amount)
+        {
+            this.amount = amount - (amount * 5 / 100);
+            return this.amount;
+        }
+    }
+
+    public class CryptoPayment : Payment
+    {
+        public override double Pay(double amount)
+        {
+            this.amount = amount;
+            return this.amount;
+        }
+    }
+
+    //-----------------------------------//
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Course kurs = new Course("oop", 100);
+            double indirimli = kurs.ApplyDiscount(15);
+            Console.WriteLine("indirimli fiyat: " + indirimli); 
+
+            FullTimeEmployee emp = new FullTimeEmployee();
+            PartTimeEmployee part = new PartTimeEmployee();
+            double empwage = emp.CalculatePayment(100);
+            double partwage = part.CalculatePayment(100);
+            Console.WriteLine(empwage +" "+ partwage);
+
+            Manager manager = new Manager("John", 1000);
+            Console.WriteLine(manager.CalculateBounus());
+
+            CreditCardPayment credit = new CreditCardPayment();
+            CashPayment cash = new CashPayment();
+            CryptoPayment crypto = new CryptoPayment();
+            Console.WriteLine(credit.Pay(100)+" " + cash.Pay(100) + " " + crypto.Pay(100));
+
+        }
+    }
+}
